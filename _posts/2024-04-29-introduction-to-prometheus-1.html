@@ -1,0 +1,32 @@
+---
+layout: post
+title: "Introduction to Prometheus"
+subtitle: "What is Prometheus and Why we need it"
+date: 2024-04-28 23:45:13 -0400
+background: '/img/posts/06.jpg'
+---
+
+<h3 class="section-heading">Introduction to Prometheus</h3>
+<p>In the first post about <span style="color: red;">Introduction to Prometheus</span>, we will lay the foundation of our learnings by understanding what is Prometheus, 
+starting with its definition. According to its official documentation: </p>
+<blockquote class="blockquote">Prometheus is an open-source systems monitoring and alerting toolkit with an active ecosystem.
+    It is an open-source, metric-based monitoring system that collects metrics from the targets being monitored.
+</blockquote>
+<p>&rarr; It's a tool that allows you to analyze how your applications and infrastructures are performing from the metrics discovered by it.</p>
+<p>&rarr; Most Prometheus components are written in Go, which makes them easy to build and deploy as static binaries.</p>
+<p>&rarr; It uses a multi-dimentional time series database where every time series is uniquely identified by its 'metric name' and 'key/value pairs' that are generally called labels.</p>
+<img class="img-fluid" src="/img/blogs/prometheus/01.png" alt="Example">
+<span class="caption text-muted">Get total of http requests</span>
+<p>&rarr; To fetch the data from its Time series data model, Prometheus uses simple and powerful language known as <strong>PromQL</strong> (Prometheus Query Language). It is a 'read-only' and flexible query language, that allows aggregation across any of the labels stored in its time series.</p>
+<p>&rarr; Since distributed systems are challenging to make reliable, Prometheus does not attemp to form any clusters. It is built to work on a single server node and it stores metrics in memory and local disk. In short, Prometheus does not rely on distributed storage.</p>
+<p>&rarr; To monitor custom services, you can add instrumentation to your code, via Prometheus client libraries like Go, Java, Python and many more.</p>
+<p>&rarr; Full-fledged monitoring system with its own Alertmanager.</p>
+
+
+<h3 class="section-heading">How about talking a little non-technical about Prometheus project?</h3>
+<p>Prometheus was started in 2012 at SoundCloud. And later on, it joined the Cloud Native Computing Foundation. In 2016, it became the second hosted project of Cloud Native after Kubernetes.
+    Prometheus alse has very active developer and user community around the globe.
+</p>
+
+<p>So this is a short introduction to Prometheus. If there are any keywords make you confused, don't worry, we will go through it in next post.</p>
+<p>Goodbye ( ͡~ ͜ʖ ͡°)</p>
