@@ -1,0 +1,64 @@
+---
+layout: post
+title: "Database Internal #1: Database Storage"
+date: 2024-04-28 23:45:13 -0400
+background: '/img/posts/02.jpg'
+---
+
+<h3 class="section-heading">Introduction</h3>
+<p>This is just a note about what I have learned about Database Internal.</p>
+
+<h3 class="section-heading">Disk-based Architecture</h3>
+<p>The DBMS assumes that the primary storage location of the database is on non-volatile disk.
+ For example: HDD, SSD, etc. 
+ And all the things we want to build in our database management system are designed to coordinate or orchestrate the movement of data back and forth from disk into memory.
+</p>
+
+<h3 class="section-heading">Storage Hierarchy</h3>
+<img class="img-fluid" src="/img/blogs/database_internal/01.png" alt="Storage Hierarchy">
+<span class="caption text-muted">Image from CMU Database Group</span>
+<p>As we see, if we go up the hierarchy, the storage is faster, smaller and more expensive.
+ We divide the storage in 2 parts: <strong>Volatile</strong> (if you pull the plug on your DRAM or CPU, everything stored in it is wiped out) and <strong>Non-volatile</strong> (pull the plug and everything is still good).</p>
+<p><strong>&bull;</strong> For <strong>Volatile</strong>, if we have a 64 byte file and we just want to read 64 bits, we can jump right into that offset.</p>
+<p><strong>&bull;</strong> For <strong>Non-volatile</strong>, we can't do as <strong>Volatile</strong>, we need to find the block where 64 bits is in, bring it into memory and do some stuff with it. 
+ Because we are fetching blocks instead of single byte or byte offset, we need to choose algorithm to maximize amount of sequential access of our data.
+</p>
+
+<h3 class="section-heading">Access Times</h3>
+<img class="img-fluid", src="/img/blogs/database_internal/02.png" alt="Latency Numbers">
+<p>The performance characteristics between devices are dramatically different and we're going to try to maximize the amount of work we can do for data when it is in memry.
+ If we bring something from the disk to the memory, we want to do as much work as possible on that data before we throw it away and bring new data into memory.
+</p>
+
+<h3 class="section-header">Sequential vs. Random Access</h3>
+<p>Random access on non-volatile storage is almost always much slower then sequential access.</p>
+<p>DBMS will want to maximize sequential access.</p>
+<p>&rarr; Algorithms try to reduce the number of writes to random pages so that data is stored in contiguous blocks.</p>
+<p>&rarr; Allocating multiple pages at the same time is called an <u>extent</u>.</p>
+
+<h3 class="section-header">System Design Goals</h3>
+<p>Our system design goals are to allow the DBMS to manage databases that exceed the amount of memory available.</p>
+<p>Since reading/writing to disk is expensive, we should manage carefully to avoid large stalls and performance degradation.</p>
+<p>Random access on disk is ussually much slower than sequential access, so the DBMS will want to maximize sequential access.</p>
+<p>Base on our design goals, we need more memory to work with. And of course, <strong>Virtual memory</strong>.
+ But should we use <strong>Virtual memory</strong> for the OS and should we rely on OS to do data management back and forth from disk to memory?</p>
+
+<h3 class="section-header">Disk-Oriented DBMS</h3>
+<img class="img-fluid" src="/img/blogs/database_internal/03.png" alt="disk-oriented dbms">
+<span class="caption text-muted">How data moves from disk to memory</span>
+<p>First, we will go through this image. Our data is stored in pages, each page size can be 8kb, 16kb, etc based on your database or your configuration. And all pages are stored in Disk.
+   In Database file, we can have many pages, each page is used for storing specific kind of data.
+   For example, some pages are used to store directory to other pages, we call it is Directory pages.
+   Some pages store data from your table, which are called datafile. Some pages can store index a.k.a index page.
+   When we need to read/write/modify data, pages contained that data are loaded in memory. Each page is cached in an area named Buffer pool.
+</p>
+<p><strong>1. </strong>Execution engine runs our query and it needs page #2.</p>
+<p><strong>2. </strong>We bring in <strong>page directory</strong> to memory because it's going to tell us where our data file stored on Disk.</p>
+<p><strong>3. </strong>Then we make a call to the OS and bring that page to the memory.</p>
+<p><strong>4. </strong>Now, the <strong>Buffer pool</strong> will give back the <strong>Execution engine</strong> a pointer in memory of where the page exist.</p>
+<p><strong>5. </strong>When <strong>Execution engine</strong> get the pointer and interpret what is inside that page.</p>
+<p><strong>6. </strong>Let's assumse that the <strong>Execution engine</strong> does a bunch of updates, makes change to data in page #2.</p>
+<p><strong>7. </strong>Then database system is responsible for writing this page back to Disk to make sure that any changes are persistent.</p>
+
+<h3 class="section-header">Why should not use the OS?</h3>
+<p>To be continue</p>

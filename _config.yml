@@ -1,13 +1,13 @@
-title:              Clean Blog
-email:              your-email@example.com
-description:        A Blog Theme by Start Bootstrap
-author:             Start Bootstrap
+title:              Simple Blog
+email:              vuquanghieuaz@gmail.com
+description:        Write about what I have learned
+author:             vqhieu
 baseurl:            ""
 url:                "https://vqhieu1012.github.io"
 
 # Social Profiles
 twitter_username:   
-github_username:    
+github_username:  vqhieu1012
 facebook_username:  
 instagram_username:  
 linkedin_username:
