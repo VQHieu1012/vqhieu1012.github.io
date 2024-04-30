@@ -1,0 +1,49 @@
+---
+layout: post
+title: "Introduction to Prometheus #2"
+subtitle: "Some basic Terminologies."
+date: 2024-04-29 23:45:13 -0400
+background: '/img/posts/06.jpg'
+---
+
+<h3 class="section-heading">Basic Terminologies in Prometheus</h3>
+
+<h5 class="section-heading">Monitoring</h5>
+<p>&bull; Monitoring is a systematic process of collecting and recording the activities taking place in a target 
+    project, program or service and then using that recorded values to check if the targets are reaching their objectives or not.
+</p>
+
+<h5 class="section-heading">Alert/Alerting</h5>
+<p>&bull; An alert is the outcome of an alerting rule in Prometheus that is actively firing. Alerts are sent from Prometheus to the Alertmanager.</p>
+
+<h5 class="section-heading">Alertmanager</h5>
+<p>&bull; The Alertmanager takes in alerts from Prometheus server, aggregates them into groups, de-duplicates, applies silences, throttles, and then sends out notifications to email, Pagerduty, Slack, etc.</p>
+<img class="img-fluid" src="/img/blogs/prometheus/02.png" alt="flow in alert">
+
+<h5 class="section-heading">Target</h5>
+<p>&bull; A target is the definition of an object to scrape. Target is an object whose metrics are to be monitored.
+    For example, target can be a Linux machine, Windows machine or your own set of applications.
+</p>
+
+<h5 class="section-heading">Instance</h5>
+<p>&bull; In Prometheus terms, an endpoint you can scrape is called an instance.<br>
+    <span style="text-indent: 30px; display: block; white-space: pre;" ><em>Ex:   1.2.3.4:5678, 1.2.3.4:5679,...</em></span>
+</p>
+
+<h5 class="section-heading">Job</h5>
+<p>&bull; Job is a collection of targets/instances with the same purpose.<br>
+    <span style="display: block; text-indent: 10px;">For example, an API server job with 4 replicated intances:</span>
+    <span style="display: block; text-indent: 25px;">&rarr; job: api-server</span>
+    <span style="display: block; text-indent: 50px;">&bull; instance 1: 1.2.3.4:5670</span>
+    <span style="display: block; text-indent: 50px;">&bull; instance 2: 1.2.3.4:5671</span>
+    <span style="display: block; text-indent: 50px;">&bull; instance 3: 1.2.3.4:5672</span>
+    <span style="display: block; text-indent: 50px;">&bull; instance 4: 1.2.3.4:5673</span>
+    <span style="display: block;">We consider each address is one instance. Grouping all these addresses together comes as one job.</span>
+</p>
+
+<h5 class="section-heading">Sample</h5>
+<p>&bull; A sample is a single value at a point in time in a time series.</p>
+<p style="white-space: pre;">&bull; <em> Ex:    http_requests_total{method="get"} &rarr; 32 </em></p>
+
+<p>Alright. So these are some basic and widely used terminologies in Prometheus. We will encounter some new terminologies but we will expain it as we go along.</p>
+<p>Goodbye (^._.^)ﾉ</p>
