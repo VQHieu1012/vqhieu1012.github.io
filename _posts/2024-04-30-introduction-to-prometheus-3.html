@@ -1,0 +1,64 @@
+---
+layout: post
+title: "Introduction to Prometheus #3"
+subtitle: "Architecture of Prometheus."
+date: 2024-04-29 23:45:13 -0400
+background: '/img/posts/06.jpg'
+---
+
+<p>We will discuss the architecture of Prometheus. We will see its various components and how and when they fuse together, making that system monitoring and alerting more effective than any other tools out there.</p>
+
+<h3 class="section-heading">Architecture</h3>
+<img class="img-fluid" src="/img/blogs/prometheus/03.png" alt="architecture">
+
+<h5 class="section-heading">Prometheus Server</h5>
+<img src="/img/blogs/prometheus/04.png" alt="prometheus server" class="img-fluid">
+<p>The first component of Prometheus architecture is <strong>Prometheus Server</strong>. It refers to the core binary of the Prometheus system.
+    The basic working of Prometheus server is divided into three parts: Retrieval, TSDB/Storage and HTTP Server.<br>
+    <span>&bull; Retrieval block retrieves/scrapes the data from the target nodes which can be any systems or applications and stores that scraped data into the Storage.<br></span>
+    <span>&bull; TSDB/Storage stores data from Retrieval. Prometheus stores data locally in a custom time series database. And storage can be a HDD or SSD.<br></span>
+    <span>&bull; Then stored data is made available to the visualization tools like Grafana or Prometheus UI through HTTP.</span>
+</p>
+
+<h3 class="section-heading">How Prometheus retrieves metrics from target nodes?</h3>
+<img src="/img/blogs/prometheus/05.png" alt="metrics retrievals" class="img-fluid">
+<p>Prometheus, most of the time uses the Pull method while monitoring systems. This is an important thing to note that Prometheus by itself pulls the metrics from target system.
+    The target system does not send the metrics to Prometheus. So if you have deployed Prometheus to monitor your systems or any applications, then unlike other monitoring tools, your application doesn't need to send metrics to Prometheus.
+    But Prometheus itself pulls or scrapes metrics from the targets. This building feature of Prometheus over HTTP offers your applications more flexibility of developing changes. 
+</p>
+<p>Let's talk about the targets. As targets can be informed of jobs or exporters. Jobs are what you can define, or you can scrape metrics from other Linux or Windows machine through exporters. 
+    It also allows you to pull metrics from other Prometheus servers as well. For example, if there are two Prometheus instances running, then one Prometheus instance can scrape the metrics of other instance.
+</p>
+
+<h3 class="section-heading">Pushgateway</h3>
+<img src="/img/blogs/prometheus/06.png" alt="pushgateway" class="img-fluid">
+<p>Overall Prometheus architecture believes that pulling is slightly better than pushing. But not every components can be directly scraped. For example, some short-lived service level batch jobs can't be scraped through pulling method.
+    So to monitor these kind of jobs, Prometheus uses a push with the <strong>Prometheus Pushgateway</strong>. Pushgateway allows short-lived batch jobs to push time series data to an intermediate job.
+    But to have it ingested in the code, it will use the pull approach only to fetch those pushed metrics from Pushgateway.
+</p>
+<p>For short, short-lived jobs will push metrics to Pushgateway, and Prometheus Server will pull metrics from Pushgateway.</p>
+
+<h3 class="section-heading">Service discovery</h3>
+<img src="/img/blogs/prometheus/07.png" alt="service discovery" class="img-fluid">
+<p>Once you have the applications or your exporters ready and running to get scraped. How will Prometheus know where they are residing? 
+    How will it know which entities it has to monitor? How will it locate its targets? This is when <strong>Service discovery</strong> comes up.
+</p>
+<p>For Prometheus to aware of targets, there is 2 options. 
+    <span style="display: block;">&bull; You can hard code targets in Prometheus, which is not the best approach as you may have a long list of dynamic targets that may increase over time.</span>
+    <span style="display: block;">&bull; Other way for these kind of dynamic environments, you can use <strong>Service discovery</strong>, which is recommended approach. In real-time environments, we can have some inventory database of our applications and machines.
+    These inventories may be based on DNS, kubernetes, EC2... Prometheus has integration with these common service discovery mechanisms. 
+    So whenever a change is made in the inventory (i.e. a node is added), since Prometheus has integration with that inventory, it would notice that node automatically and add that node as a target and start scraping it.</span>
+</p>
+<p>So these are the Prometheus architectural components that help us to pull and push the metrics from target nodes.</p>
+
+<h3 class="section-heading">What happens after the metrics are scraped and stored into the database?</h3>
+<img src="/img/blogs/prometheus/08.png" alt="visualization" class="img-fluid">
+<p>As we know, data after being scraped is stored in some local storage, these metrics are made available to the user. Using the parameter <strong>Web UI</strong>, you can request raw data with its query language <strong>PromQL</strong>.
+    Or we can integrate <strong>Grafana</strong> to create your own dashboards. We can also integrate Prometheus with third-party API to do some customs.
+</p>
+
+<h3 class="section-heading">Alertmanager</h3>
+<img src="/img/blogs/prometheus/08.png" alt="service discovery" class="img-fluid">
+<p>Prometheus Server pushes alert to <strong>Alertmanager</strong>. After receiving the alerts from Prometheus Server, <strong>Alertmanager</strong> aggregates those alerts into groups, applies silences, throttles on them and then sends out notifications to email, Pagerduty, Slack, etc.</p>
+
+<p style="color: rgb(125, 127, 204);">So this is all about architecture of Prometheus. Goodbye ( ‵▽′)ψ.</p>
