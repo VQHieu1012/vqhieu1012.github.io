@@ -1,0 +1,69 @@
+---
+layout: post
+title: "Introduction to Prometheus #4"
+subtitle: "Prometheus UI."
+date: 2024-04-29 23:45:13 -0400
+background: '/img/posts/06.jpg'
+---
+
+<h4 class="section-heading">Installation</h4>
+<p>At first, we will need to install Prometheus. There are some ways to install it.
+    You can take a look at <a href="https://prometheus.io/docs/prometheus/latest/installation/" style="color: red;">the document</a>.
+    After installation, start up your Prometheus. By default, you can access to Prometheus UI in localhost with port 9090.
+</p>
+<img src="/img/blogs/prometheus/09.png" alt="UI" class="img-fluid">
+
+<h4 class="section-heading">Graph</h4>
+<p>At first look under the page, we can see an expression input box from where we execute our queries. This expression browser (aka expression input box) is useful for running ad hoc queries, 
+    developing from expressions and debugging both PromQL and the data inside Prometheus.
+</p>
+<p>Let's try with a simple expression "up" and press "Execute".</p>
+<img src="/img/blogs/prometheus/10.png" alt="UI" class="img-fluid">
+<p>By clicking on "Execute", we will execute a specified expression and will return a Time series with metric name "up". The "up" metric is a special metric that outputs the list of targets scraped by Prometheus.
+    By default, Prometheus also scrapes itself and exposes data about itself as a HTTP endpoint as we see in the above image.
+    The instance label indicates the scraped target, which is at localhost:9090 (the port Prometheus running) and job (with the value "Prometheus" indicates the type of application).
+    For the "up" expression, the value in second column displays the sample value collected at that time. The value "1" (in this "up") indicates that the script was successful.
+</p>
+<p>Moving ahead, we have a box "Evaluation time". Since Prometheus scrapes data from targets after the specified time interval, for example 15 seconds or 1 minute, we can filter out the result for a specific date time.</p>
+<p>The next thing we will use is Graph view.</p>
+<img src="/img/blogs/prometheus/11.png" alt="graph view" class="img-fluid">
+<p>In this view, we can see the graph of our metrics to know how they change over time. For the "up" metric, the value does not change over time, so we get a straight line.</p>
+<p>Let's try another metric: <em>prometheus_http_requests_total</em> </p>
+<img src="/img/blogs/prometheus/12.png" alt="graph view" class="img-fluid">
+<p>This is the time series data has stored in its database for this metric. We visualize it using stacked graph.</p>
+
+<h4 class="section-heading">Alerts</h4>
+<img src="/img/blogs/prometheus/13.png" alt="alert view" class="img-fluid">
+<p>From this page, we can get the list of all alerts we have configured with their alert status. This page is empty because we haven't defined any alert. We can define them in Alertmanager.</p>
+
+<h4 class="section-heading">Status Navigation Bar</h4>
+
+<h5>Runtime & Build information</h5>
+<img src="/img/blogs/prometheus/14.png" alt="runtime and build information" class="img-fluid">
+<p>This page displays the genenal information (working directory, Configuration reload, Version...).</p>
+
+<h5>Command-Line Flags</h5>
+<img src="/img/blogs/prometheus/15.png" alt="command line flags" class="img-fluid">
+<p>We have some command line settings.</p>
+
+<h5>Configuration</h5>
+<img src="/img/blogs/prometheus/16.png" alt="configuration" class="img-fluid">
+<p>Configuration page displays all the running Prometheus settings. These settings are coming from Configuration file.</p>
+
+<h5>Rules</h5>
+<img src="/img/blogs/prometheus/17.png" alt="rules" class="img-fluid">
+<p>Rules page displays the rules Configuration we have defined in our rules file.</p>
+
+<h5>Targets</h5>
+<img src="/img/blogs/prometheus/18.png" alt="targets" class="img-fluid">
+<p>Targets page shows all target nodes, which Prometheus scrapes data from.</p>
+
+<h5>Service Discovery</h5>
+<img src="/img/blogs/prometheus/19.png" alt="service discovery" class="img-fluid">
+<p>This page shows a list of discovered targets with their corresponding labels</p>
+
+<h4 class="section-heading">Help</h4>
+<p>This bar just redirect you to the Prometheus official website.</p>
+
+<p>So that is all for Prometheus UI. We recommend you to interact with the UI yourself to get familiar to it.</p>
+<p style="color: aqua;">Goodbye (ง •_•)ง</p>
