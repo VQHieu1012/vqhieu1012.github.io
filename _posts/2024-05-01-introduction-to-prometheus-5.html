@@ -1,0 +1,94 @@
+---
+layout: post
+title: "Introduction to Prometheus #5"
+subtitle: "Prometheus Configuration File."
+date: 2024-04-30 23:45:13 -0400
+background: '/img/posts/06.jpg'
+---
+
+<p>In this post, we will take a look at <strong>Prometheus Configuration File</strong>. As we have installed Prometheus on Docker,
+    we need to start Prometheus and connect to bash terminal in Prometheus Container.</p>
+<img src="/img/blogs/prometheus/20.png" alt="prometheus docker" class="img-fluid">
+<p>By default, our file in located in "/etc/prometheus/prometheus.yml"</p>
+<img src="/img/blogs/prometheus/21.png" alt="prometheus file" class="img-fluid">
+<p>Let's go through the Configuration file line by line.</p>
+
+<h5>Global block</h5>
+<p>&rAarr; The first block is <strong>the global block</strong> controls the Prometheus Server global configuration. 
+    This block will be applied to the whole Prometheus instance (<em>unless you override them individually in each target</em>).
+</p>
+<pre style="background-color: #f0f0f0;">
+<code>
+    # my global config
+    global:
+        scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+        evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+        # scrape_timeout is set to the global default (10s).    
+</code>
+</pre>
+<p>&bull; The first property is <strong>scrape_interval</strong>, how often or after what interval of time Prometheus scrapes the target again. 
+    As you see, the default value is <em>15s</em>, that means after every 15s, Prometheus will pull the metrics from its target.
+    But if you want to set different intervals for different targets, you can set it individually in <strong>scrape_configs</strong>.
+</p>
+<p>&bull; Second property is <strong>evaluation_interval</strong>, how often Prometheus will evaluate the rules that we have defined in our <strong>Rules file</strong>. Default is <em>1 minute</em>.
+</p>
+
+<p>&bull; Final property is <strong>scrape_timeout</strong>, how long a scrape request will timeout. Default is <em>10s</em>.
+</p>
+
+<p>We can also add more global properties like <strong>body_size_limit</strong>, <strong>sample_limit</strong>, <strong>target_limit</strong>, etc base on our purpose.</p>
+
+<h5>Alerting block</h5>
+<p>&rAarr; The second block is <strong>alerting</strong>.
+    This block specifies the settings related to <strong>the Alertmanager</strong>.
+</p>
+<pre style="background-color: #f0f0f0;">
+<code>
+    # Alertmanager configuration
+    alerting:
+    alertmanagers:
+        - static_configs:
+            - targets:
+            # - alertmanager:9093
+</code>
+</pre>
+<p>From now, this block is commented, we will config it when we need.</p>
+
+<h5>Rules file block</h5>
+<p>This block specifies the path to any rules files we have defined, and Prometheus will know where to read these files, create new time series and generate alerts based on them.</p>
+<pre style="background-color: #f0f0f0;">
+<code>
+    # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+    rule_files:
+    # - "first_rules.yml"
+    # - "second_rules.yml"
+</code>
+</pre>
+
+<h5>Scrape configs block</h5>
+<p>This block contains infomation and configurations of all the targets to be scraped. </p>
+<pre style="background-color: #f0f0f0;">
+<code>
+    # A scrape configuration containing exactly one endpoint to scrape:
+    # Here it's Prometheus itself.
+    scrape_configs:
+      # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+      - job_name: "prometheus"
+    
+        # metrics_path defaults to '/metrics'
+        # scheme defaults to 'http'.
+    
+        static_configs:
+          - targets: ["localhost:9090"]
+
+</code>
+</pre>
+<p>&bull; Under the configs, we have <strong>job_name</strong> set to "prometheus". We can change this base on our job name.</p>
+<p>&bull; The <strong>targets</strong> to be scraped are defined as HTTP endpoints. Base on these endpoints, Prometheus can connect and scrape data from them.
+    As you can see, the target is hardcode. But if we need to make Prometheus discover targets dynamically, we can config the service discovery mechanism here.
+    One important thing is Prometheus expects the metrics to be available on targets on <strong>/metrics</strong>. For example: <em>localhost:9090/metrics</em>.
+</p>
+
+<p>That's all for <strong>Configuration file</strong>. For more information about configurations, you can visit <a href="https://prometheus.io/docs/prometheus/latest/configuration/configuration/" style="color: red;">the document</a>.</p>
+
+<p style="color: aqua;">Goodbye ψ(._. )></p>
