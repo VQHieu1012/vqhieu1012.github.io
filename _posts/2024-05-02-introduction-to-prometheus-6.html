@@ -1,0 +1,26 @@
+---
+layout: post
+title: "Introduction to Prometheus #6"
+subtitle: "Our first run."
+date: 2024-04-30 23:45:13 -0400
+background: '/img/posts/06.jpg'
+---
+
+<p>In this post, we are going to walk through the UI again and know how and where Prometheus scrapes data from its targets.</p>
+<p>First, we need to run Prometheus service.</p>
+<img src="/img/blogs/prometheus/22.png" alt="logs" class="img-fluid">
+<p>On starting Prometheus, it first goes to the configuration file (prometheus.yml) and loads the settings from that file.
+    As we saw in previous post, those are settings like what to scrape, where to scrape and all other settings. Base on configurations, it can run up Prometheus instance.
+    And now let's head to the UI.
+</p>
+<p>In the Expression box, type "up" and execute. "up" command returns a list of targets scraped by Prometheus. At this time, we only have 1 job defined in Prometheus configuration file.</p>
+<img src="/img/blogs/prometheus/23.png" alt="mapping output" class="img-fluid">
+<p>Let's access the endpoint where Prometheus actually scrapes these data. We go to <strong>Status -> Target</strong>.</p>
+<img src="/img/blogs/prometheus/24.png" alt="endpoint" class="img-fluid">
+<p>If we redirect to the endpoint <em>http://localhost:9090/metrics</em>, this is where Prometheus scrapes the data. It is a long list of data that Prometheus exposes about itself at this endpoint.</p>
+<img src="/img/blogs/prometheus/25.png" alt="enpoint_page" class="img-fluid">
+<p>As we have seen in the configuration file, the default value for <strong>scrape_interval</strong> is <em>15s</em>, Prometheus will access to the endpoint every 15s to get the sample value for the metrics and store those values in a time series database.
+    From there, every UI tool can access to database and visualize the time series data.
+</p>
+<p>And that is how Prometheus collects data from its targets.</p>
+<p style="color: aqua;">Goodbye ˋ( ° ▽、° ) s</p>
