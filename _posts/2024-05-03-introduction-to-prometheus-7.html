@@ -1,0 +1,32 @@
+---
+layout: post
+title: "Introduction to Prometheus #7"
+subtitle: "Exporters."
+date: 2024-05-1 23:45:13 
+background: '/img/posts/06.jpg'
+---
+
+<p>As we know, to get monitored by Prometheus, we have to add instrumentation to the application code.
+    Although Prometheus comes with some libraries (official and unofficial) that help us to monitor any available applications in almost every language.
+    For example, if we want to monitor some applications written in Python, we can add instrument to our code by using official Python client library. For Java, we have Jave client library.
+    But not always can we add instrumentation directly to application code like Operating System kernel, etc. Those OS often have interface for us to access their metrics. But again, adding code directly to them is not feasible.
+    So how can we monitor these such systems or machines? The answer is <strong>Exporter</strong>.
+</p>
+
+<h3 class="section-heading">What is Exporter?</h3>
+<p style="color: red;"><strong>Exporters</strong></p>
+<p>&bull; An Exporter is a software or number of libraries and servers that help in exporting existing metrics from third-party systems (like Linux or Windows) into the same format as of Prometheus metrics.</p>
+<p>&bull; Useful for cases where it is not feasible to instrument a given system with Prometheus metrics directly (i.e. Linux system stats).</p>
+
+<h3 class="section-heading">How does Exporter work?</h3>
+
+<p>Let'a assume we want to take metrics from Linux system. We will deploy an exporter right beside the Linux machine.
+    When triggered, it will first take in that request from Prometheus, that are all metrics Prometheus wants from the target.
+    After that, exporter gathers the required data from the targets, transforms them into the correct format and returns the transformed data to Prometheus request.
+    For short, just think about <strong>Exporter</strong> as a bridge between targets and Prometheus server.
+    <img src="/img/blogs/prometheus/26.png" alt="exporter" class="img-fluid">
+    We have many kinds of exporter. For example: mysql exporter if you use MySQL, elastic search exporter for ElasticSearch, etc.
+    For more information, we can visit <strong><a href="https://prometheus.io/docs/instrumenting/exporters/" style="color: red;">documentation</a></strong>.
+</p>
+<p style="color: aqua;">Goodbye (°°)～</p>
+
