@@ -1,0 +1,42 @@
+---
+layout: post
+title: "Introduction to Prometheus #8"
+subtitle: "Monitoring Linux systems."
+date: 2024-05-03 18:00:00 
+background: '/img/posts/06.jpg'
+---
+
+<p>In this post, we will try to monitor our Linux System by using Exporter.</p>
+<p><strong>Node Exporter</strong></p>
+<p>&bull; The Node Exporter is a Prometheus exporter for hardware and OS metrics exposed by Unix kernels.</p>
+<p>&bull; It exposes kernel-level and machine-level metrics on Unix systems, such as Linux.</p>
+<p>&bull; It provides metrics such as CPU, memory, disk space, disk IO, and network bandwidth.</p>
+<p>&bull; It is written in Go with pluggable metric collectors.</p>
+
+<p>Let's go to the browser and download it. <a href="https://prometheus.io/download/#node_exporter" style="color: red;">Node exporter</a></p>
+
+<p>After installing <strong>Node Exporter</strong>, we unzip and start the node.</p>
+<img src="/img/blogs/prometheus/28.png" alt="node" class="img-fluid">
+<p>As Node Exporter is up and running on <em>localhost:9100</em>, we need to open our browser and access this endpoint.</p>
+<img src="/img/blogs/prometheus/29.png" alt="node endpoint"class="img-fluid">
+<p>Node Exporter just pulls out the Linux system metrics, obviously, whatever Linux system is exposing, and transforms that data into Prometheus format and finally handles those extracted metrics to Prometheus Server.</p>
+<img src="/img/blogs/prometheus/30.png" alt="node data" class="img-fluid">
+<p>These are all available metrics to be scraped by Prometheus server. If we scroll down the page, we can see that all the metrics are prefixed by <em>node_</em>.</p>
+<p>Now to make Prometheus Server to be able to scrape metrics from Node Exporter, we need to update the <strong>Prometheus Configuration file [prometheus.yml]</strong> by adding the scrape configuration for this target.</p>
+<img src="/img/blogs/prometheus/31.png" alt="scrape_configs" class="img-fluid">
+<p>To add new target to <strong>scrape_configs</strong>, we add new <em>job_name</em> and <em>targets</em> as image above. Then restart Prometheus &rarr; go to Prometheus UI &rarr; go to Targets UI to confirm that new target has been added.</p>
+<img src="/img/blogs/prometheus/32.png" alt="target UI" class="img-fluid">
+<span class="caption text-muted">Successfully add node exporter</span>
+<p>Let's evaluate "up" expression.</p>
+<img src="/img/blogs/prometheus/33.png" alt="up" class="img-fluid">
+<p>In Linux machine metrics, there are thousands of metrics it offers. Some are well-documented or commonly used, such as memory, CPU, IO... So let's check how much memory we have used over time.
+    In browser expression, we can try <strong>node_memory_MemAvailable_bytes</strong> and execute.
+</p>
+<img src="/img/blogs/prometheus/34.png" alt="expression browser" class="img-fluid">
+<span class="caption text-muted">Expression browser</span>
+<img src="/img/blogs/prometheus/35.png" alt="graph" class="img-fluid">
+<span class="caption text-muted">Graph for Memory metric</span>
+<p>From the graph, it is easier to figure out how memory changes over time. And the graph continues to update every <em>15s</em>. There are thousand of other metrics we can analyze, we just need correct info of the metric and what that metric specifies and can get detail of it with one click.</p>
+<p>So that is how we can scrape any Linux system metric using <strong>Node Exporter</strong>. Next time, we will try to monitor Windows systems.</p>
+<p style="color: aqua;">Goodbye (^///^)</p>
+
