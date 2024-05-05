@@ -7,22 +7,31 @@ background: '/img/posts/06.jpg'
 ---
 
 <p>In this post, we will see how to get Windows machine metrics using WMI exporter (Windows Management Instrumentation).
-    WMI exporter is not available in Prometheus official documentatin. So we need to download it externally.
+    WMI exporter is not available in Prometheus official documentation. So we need to download it externally.
     We can download WMI exporter in this <a href="https://github.com/prometheus-community/windows_exporter/releases" style="color: red;">Github repository</a>
 </p>
 <p>In our laptop, we use <em>windows_exporter-0.25.1-amd64.exe</em> released on Jan 17.</p>
-<p>After we have downloaded the WMI, we can run easily run it with just one click.</p>
+<p>After we have downloaded the WMI, we can run it easily in just one click.</p>
 <img src="/img/blogs/prometheus/36.png" alt="run WMI" class="img-fluid">
-<p>WMI exporter is now running on <em>localhost:9182</em>. Let's head to the UI and access it.</p>
+<p>WMI exporter is now running on <em>localhost:9182</em>. Let's access that url in our browser.</p>
 <img src="/img/blogs/prometheus/37.png" alt="UI" class="img-fluid">
 <p>If we access to metrics, we will get a list of infomation our Windows system has exposed.</p>
 <img src="/img/blogs/prometheus/38.png" alt="metrics" class="img-fluid">
-<p>WMI is ready. The next step is connect our Windows system with Prometheus Server. 
+<p>WMI is ready. The next step is to connect our Windows system with Prometheus Server. 
     As we ran WMI on Windows machine and Prometheus Server on VMWare, we have to make sure the Prometheus Server can communicate with Windows machine.
-    To get our local IP address, we can run <em>ipconfig</em> in Windows terminal.
+    To get our local IP address, we can run <em>ipconfig</em> in Windows terminal. As we connected to VMWare using VMnet8, our IP is <em>192.168.23.1</em>
 </p>
 <img src="/img/blogs/prometheus/39.png" alt="ip address" class="img-fluid">
 <p>And we need to install <strong>openssh-client</strong> and <strong>openssh-server</strong> on Prometheus server. We can try ping to Windows IP address to make sure they can communicate with each other.</p>
 <img src="/img/blogs/prometheus/40.png" alt="ping command" class="img-fluid">
-<p>Or we can use browser and access to the IP and port 9182 in Prometheus Server. In our case is <em>192.168.23.1:9182</em></p>
-<p>To be ...</p>
+<p>Or we can use browser and access to the Windows IP address and port 9182 in Prometheus Server. In our case is <em>192.168.23.1:9182</em></p>
+<img src="/img/blogs/prometheus/41.png" alt="UI browser" class="img-fluid">
+
+<p>Next step is to config our <strong>prometheus.yml</strong> as we did in previous post.</p>
+<img src="/img/blogs/prometheus/42.png" alt="prometheus.yml" class="img-fluid">
+<p>To check if everything is correct, we can execute "up" in Prometheus Expression Browser (hope you are familiar to this).</p>
+<img src="/img/blogs/prometheus/43.png" alt="up" class="img-fluid">
+<p>Our WMI_exporter returns value 1, which means Prometheus have connected successfully. Now everything is easy to you. Let's try creating a graph using <em>windows_cpu_processor_performance_total</em>.</p>
+<img src="/img/blogs/prometheus/44.png" alt="windows_cpu_processor_performance_total" class="img-fluid">
+<p>We have successfully monitored our Windows machine. Next time, maybe we will take a look at <strong>PromQL</strong>.</p>
+<p style="color: aqua;">Goodbye ლ(╹◡╹ლ)</p>
