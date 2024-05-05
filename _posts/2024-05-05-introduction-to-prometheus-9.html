@@ -1,0 +1,28 @@
+---
+layout: post
+title: "Introduction to Prometheus #9"
+subtitle: "Monitoring Windows systems."
+date: 2024-05-03 18:00:00 
+background: '/img/posts/06.jpg'
+---
+
+<p>In this post, we will see how to get Windows machine metrics using WMI exporter (Windows Management Instrumentation).
+    WMI exporter is not available in Prometheus official documentatin. So we need to download it externally.
+    We can download WMI exporter in this <a href="https://github.com/prometheus-community/windows_exporter/releases" style="color: red;">Github repository</a>
+</p>
+<p>In our laptop, we use <em>windows_exporter-0.25.1-amd64.exe</em> released on Jan 17.</p>
+<p>After we have downloaded the WMI, we can run easily run it with just one click.</p>
+<img src="/img/blogs/prometheus/36.png" alt="run WMI" class="img-fluid">
+<p>WMI exporter is now running on <em>localhost:9182</em>. Let's head to the UI and access it.</p>
+<img src="/img/blogs/prometheus/37.png" alt="UI" class="img-fluid">
+<p>If we access to metrics, we will get a list of infomation our Windows system has exposed.</p>
+<img src="/img/blogs/prometheus/38.png" alt="metrics" class="img-fluid">
+<p>WMI is ready. The next step is connect our Windows system with Prometheus Server. 
+    As we ran WMI on Windows machine and Prometheus Server on VMWare, we have to make sure the Prometheus Server can communicate with Windows machine.
+    To get our local IP address, we can run <em>ipconfig</em> in Windows terminal.
+</p>
+<img src="/img/blogs/prometheus/39.png" alt="ip address" class="img-fluid">
+<p>And we need to install <strong>openssh-client</strong> and <strong>openssh-server</strong> on Prometheus server. We can try ping to Windows IP address to make sure they can communicate with each other.</p>
+<img src="/img/blogs/prometheus/40.png" alt="ping command" class="img-fluid">
+<p>Or we can use browser and access to the IP and port 9182 in Prometheus Server. In our case is <em>192.168.23.1:9182</em></p>
+<p>To be ...</p>
