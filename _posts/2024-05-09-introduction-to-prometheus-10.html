@@ -1,0 +1,32 @@
+---
+layout: post
+title: "Introduction to Prometheus #10"
+subtitle: "Data Type in PromQL."
+date: 2024-05-07 18:00:00 
+background: '/img/posts/06.jpg'
+---
+
+<h3 class="section-heading">Querying Basics</h3>
+<p>Using PromQL not only offers user to select from Time series, but also offers the ability to do all sorts of aggregations, analyse and do automatic operations just like any other relational database query.
+    This allows user to have better control of their stored metric data, which eventually helps in better understanding the performance of their system metrics.
+    Before we start getting in PromQL, let's first learn about data types that PromQL expression or sub-expression can evaluate.
+</p>
+
+<h3 class="section-heading">Data Types</h3>
+<p>There are <strong>4</strong> data types that PromQL expression evaluates: <strong>Instant Vector</strong>, <strong>Range Vector</strong>, <strong>Scalar</strong>, <strong>String</strong>.</p>
+<p>&bull; <strong>Instant Vector</strong> - A set of time series containing a single sample for each time series, all sharing the same timestamp (one sample for each time series).</p>
+<img src="/img/blogs/prometheus/45.png" alt="Instant Vector" class="img-fluid">
+<span class="caption text-muted"><em>prometheus_http_requests_total</em></span>
+
+<p>&bull; <strong>Range Vector</strong> - A set of time series containing a range of data points over time for each time series (many samples for each time series).</p>
+<img src="/img/blogs/prometheus/46.png" alt="Range Vector" class="img-fluid">
+<span class="caption text-muted"><em>prometheus_http_requests_total[2m]</em></span>
+
+<p>&bull; <strong>Scalar</strong> - A simple numeric floating point value.</p>
+<pre>   <em>Ex:  12.34</em></pre>
+
+<p>&bull; <strong>String</strong> - A simple string value, currently unused in Prometheus.</p>
+<pre>   <em>Ex:   hello world</em></pre>
+
+<p>And these are data types that Prometheus can evaluate.</p>
+<p style="color: aqua;">Goodbye ( ͡• ͜ʖ ͡• )</p>
