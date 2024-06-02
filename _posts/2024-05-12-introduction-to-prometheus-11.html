@@ -1,0 +1,31 @@
+---
+layout: post
+title: "Introduction to Prometheus #11"
+subtitle: "Selectors and Matchers."
+date: 2024-05-08 18:00:00 
+background: '/img/posts/06.jpg'
+---
+
+<h3 class="section-heading">Selectors and Matchers</h3>
+<p>In Prometheus Server, we may have hundreds of different time series with different label values.
+    But we only want to keep track of one time serie. In this case, we need to narrow down the time series
+    and only look at the time series we want to work on. This is when <strong>Matchers</strong> come into place.
+    For example, we get 2 outputs from <em>process_cpu_seconds_total</em>. But we just want the output with <em>job="node_exporter"</em>.
+</p>
+<img src="/img/blogs/prometheus/47.png" alt="Selectors" class="img-fluid">
+<span class="text-muted caption">process_cpu_seconds_total{job="node_exporter"}</span>
+
+<p>There are some Matcher types</p>
+<p>
+&bull; <strong>Equality matchers (=)</strong> - Select labels that are exactly equal to the provided string
+<pre>       Ex: <em>process_cpu_seconds_total{job='node_exporter'}</em></pre>
+&bull; <strong>Negative Equality matcher (!=)</strong> - Select labels that are not equal to the provided string.
+<pre>       Ex: <em>process_cpu_seconds_total{job!='node_exporter'}</em></pre>
+&bull; <strong>Regular expression matcher (=~)</strong> - Select labels that regex-match with the provided string.
+<pre>       Ex: <em>prometheus_http_requests_total{handler=~"/api.*"}</em></pre>
+&bull; <strong>Negative Regular expression matcher (!~)</strong> - Select labels that do not regex-match with the provided string.
+<pre>       Ex: <em>prometheus_http_requests_total{handler!~"/api.*"}</em></pre>
+</p>
+
+<p>These Matchers are pretty easy to use and really helpful. Hope you have fun with it.</p>
+<p style="color: aqua;">Goodbye ผ(•̀_•́ผ)</p>
